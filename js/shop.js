@@ -1,9 +1,10 @@
 window.Shop = {
-    API_BASE_URL: "http://localhost:8086",
+    API_BASE_URL: "http://localhost:8085",
 
     getProducts: function () {
         $.ajax({
             url: Shop.API_BASE_URL + "/products"
+            // default ajax method: "GET"
         }).done(function (response) {
             console.log(response);
 
@@ -11,8 +12,9 @@ window.Shop = {
         });
     },
 
-    addProductToCart: function(productId){
+    addProductToCart: function (productId) {
         var request = {
+            // todo: take customer id dynamically somehow
             customerId: 28,
             productId: productId
         };
@@ -44,10 +46,11 @@ window.Shop = {
                     </div>
                 </div>`
     },
+
     displayProducts: function (products) {
         var productsHtml = "";
 
-        products.forEach(oneProduct => productsHtml += Shop.getProductHtml((oneProduct)));
+        products.forEach(oneProduct => productsHtml += Shop.getProductHtml(oneProduct));
 
         $(".single-product-area .row:first-child").html(productsHtml);
     }
