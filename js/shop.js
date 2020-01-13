@@ -15,7 +15,7 @@ window.Shop = {
     addProductToCart: function (productId) {
         var request = {
             // todo: take customer id dynamically somehow
-            customerId: 28,
+            customerId: 1,
             productId: productId
         };
 
@@ -41,7 +41,9 @@ window.Shop = {
                         </div>  
                         
                         <div class="product-option-shop">
-                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="${product.id}" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
+                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" 
+                            data-product_id="${product.id}" rel="nofollow" 
+                            href="/canvas/shop/?add-to-cart=70">Add to cart</a>
                         </div>                       
                     </div>
                 </div>`
@@ -53,7 +55,19 @@ window.Shop = {
         products.forEach(oneProduct => productsHtml += Shop.getProductHtml(oneProduct));
 
         $(".single-product-area .row:first-child").html(productsHtml);
+    },
+
+    bindEvents: function () {
+        $(".single-product-area").delegate(".add_to_cart_button", "click", function (event) {
+            event.preventDefault();
+
+            let productId = $(this).data("product_id");
+
+            Shop.addProductToCart(productId);
+
+        })
     }
 };
 
 Shop.getProducts();
+Shop.bindEvents();
