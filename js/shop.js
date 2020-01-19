@@ -15,7 +15,7 @@ window.Shop = {
     addProductToCart: function (productId) {
         var request = {
             // todo: take customer id dynamically somehow
-            customerId: 1,
+            customerId: 92,
             productId: productId
         };
 

@@ -2,8 +2,8 @@ window.Cart= {
     API_BASE_URL: "http://localhost:8085",
 
     getCart: function () {
-        //todo: take this id dinamically
-        let customerId = 1;
+        //todo: take this id dinamically + checkout html product.getPrice
+        let customerId = 92;
         $.ajax({
             url: Cart.API_BASE_URL + "/carts/" + customerId
         }).done(function (response) {
