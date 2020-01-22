@@ -13,9 +13,9 @@ window.Shop = {
     },
 
     addProductToCart: function (productId) {
-        var request = {
-            // todo: take customer id dynamically somehow
-            customerId: 92,
+        var customerId = 92;
+        var requestBody = {
+            customerId: customerId,
             productId: productId
         };
 
@@ -28,6 +28,7 @@ window.Shop = {
             window.location.replace("cart.html");
         })
     },
+
 
     getProductHtml: function (product) {
         return `<div class="col-md-3 col-sm-6">
