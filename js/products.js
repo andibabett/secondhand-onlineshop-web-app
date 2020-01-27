@@ -1,38 +1,34 @@
-window.Shop = {
-    API_BASE_URL: "http://localhost:8085",
+window.Products = {
+    API_BASE_URL: "http://localhost:8090",
 
     getProducts: function () {
         $.ajax({
-            url: Shop.API_BASE_URL + "/products"
-            // default ajax method: "GET"
+            url: Products.API_BASE_URL + "/products"
         }).done(function (response) {
             console.log(response);
 
-            Shop.displayProducts(response.content);
+            Products.displayProducts(response.content);
         });
     },
 
-    addProductToCart: function (productId) {
-        var customerId = 92;
+addProductToCart: function (productId) {
+        var customerId = 70;
         var requestBody = {
             customerId: customerId,
             productId: productId
         };
 
         $.ajax({
-            url: Shop.API_BASE_URL + "/carts",
+            url: Products.API_BASE_URL + "/carts",
             method: "PUT",
             contentType: "application/json",
             data: JSON.stringify(requestBody)
-        }).done(function (response) {
+        }).done(function () {
             window.location.replace("cart.html");
-            console.log(response);
+
+            Products.addProductToCart(productId);
         })
     },
-
-
-
-
 
     getProductHtml: function (product) {
         return `<div class="col-md-3 col-sm-6">
@@ -55,9 +51,9 @@ window.Shop = {
     },
 
     displayProducts: function (products) {
-        var productsHtml = "";
+        let productsHtml = "";
 
-        products.forEach(oneProduct => productsHtml += Shop.getProductHtml(oneProduct));
+        products.forEach(oneProduct => productsHtml += Products.getProductHtml(oneProduct));
 
         $(".single-product-area .row:first-child").html(productsHtml);
     },
@@ -68,11 +64,11 @@ window.Shop = {
 
             let productId = $(this).data("product_id");
 
-            Shop.addProductToCart(productId);
+            Products.addProductToCart(productId);
 
         })
     }
 };
 
-Shop.getProducts();
-Shop.bindEvents();
+Products.getProducts();
+Products.bindEvents();

@@ -1,9 +1,9 @@
 window.Cart = {
-    API_BASE_URL: "http://localhost:8085",
+    API_BASE_URL: "http://localhost:8090",
 
     getCart: function () {
 
-        let customerId = 92;
+        let customerId = 70;
 
         $.ajax({
             url: Cart.API_BASE_URL + "/carts/" + customerId,
@@ -19,8 +19,27 @@ window.Cart = {
         var productsHtml = "";
 
         products.forEach(oneProduct => productsHtml += Cart.getProductHtml(oneProduct));
-        allProductsHtml += Cart.addcheckout(5);
+        allProductsHtml += Cart.addcheckout();
         $(".shop_table.cart").html(productsHtml);
+    },
+
+    addProductToCart: function (productId) {
+        var customerId = 70;
+        var requestBody = {
+            customerId: customerId,
+            productId: productId
+        };
+
+        $.ajax({
+            url: Products.API_BASE_URL + "/carts",
+            method: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(requestBody)
+        }).done(function () {
+            window.location.replace("cart.html");
+
+            Products.addProductToCart(productId);
+        })
     },
 
     getProductHtml: function (product) {
@@ -30,11 +49,11 @@ window.Cart = {
                                             </td>
 
                                             <td class="product-thumbnail">
-                                                <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a>
+                                                <a href="products.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a>
                                             </td>
 
                                             <td class="product-name">
-                                                <a href="single-product.html">${product.name}</a> 
+                                                <a href="products.html">${product.name}</a> 
                                             </td>
 
                                             <td class="product-price">
@@ -53,6 +72,7 @@ window.Cart = {
                                                 <span class="amount">${product.price}</span> 
                                             </td>
                                         </tr>`;
+        Cart.getProductHtml(product);
     },
     addPlusButton: function (id) {
         var currentValue = $(`.product-quantity-${id}`).find('input.input-text').val(),
@@ -61,7 +81,7 @@ window.Cart = {
     },
     addMinusButton: function (id) {
         var currentValue = $(`.product-quantity-${id}`).find('input.input-text').val(),
-            nextValue = parseInt(currentValue - 1);
+            nextValue = parseInt(currentValue) - 1;
         $(`.product-quantity-${id}`).find('input.input-text').val(nextValue);
     },
     deleteProduct: function (productId) {
@@ -77,13 +97,13 @@ window.Cart = {
     updateProductCount: function () {
         let items = $('.cart_item');
         items.each(function () {
-            var id = $(this).find('.itemId').val(),
-                count = $(this).find('.qty').val();
+            var id = $(this).find('.productId').val(),
+                count = $(this).find('.product-quantity').val();
             Cart.updateSingleProduct(id, count);
         })
     },
     updateSingleProduct: (productId, count) => {
-        var reqBody = {
+        var requestBody = {
             productId: productId,
             count: count,
         };
@@ -91,7 +111,7 @@ window.Cart = {
         $.ajax({
             url: Cart.API_BASE_URL + "/carts/update/count/15",
             method: "PUT",
-            data: JSON.stringify(reqBody),
+            data: JSON.stringify(requestBody),
             contentType: "application/json",
         }).done(function (response) {
             console.log(response);
@@ -112,7 +132,7 @@ window.Cart = {
     },
 
     proceedToCheckout: function () {
-        location.href = ("http://localhost:3306/secondhand-onlineshop/checkout.html");
+        location.href = ("http://localhost:3306/secondhandOnlineshop/checkout.html");
 
     }
 };
