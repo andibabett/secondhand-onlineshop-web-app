@@ -20,27 +20,27 @@ window.Cart = {
 
         products.forEach(oneProduct => productsHtml += Cart.getProductHtml(oneProduct));
         allProductsHtml += Cart.addcheckout();
-        $(".shop_table.cart").html(productsHtml);
+        $(".shop_table.cart tbody").html(productsHtml);
     },
 
-    addProductToCart: function (productId) {
-        var customerId = 70;
-        var requestBody = {
-            customerId: customerId,
-            productId: productId
-        };
-
-        $.ajax({
-            url: Products.API_BASE_URL + "/carts",
-            method: "PUT",
-            contentType: "application/json",
-            data: JSON.stringify(requestBody)
-        }).done(function () {
-            window.location.replace("cart.html");
-
-            Products.addProductToCart(productId);
-        })
-    },
+    // addProductToCart: function (productId) {
+    //     var customerId = 70;
+    //     var requestBody = {
+    //         customerId: customerId,
+    //         productId: productId
+    //     };
+    //
+    //     $.ajax({
+    //         url: Products.API_BASE_URL + "/carts",
+    //         method: "PUT",
+    //         contentType: "application/json",
+    //         data: JSON.stringify(requestBody)
+    //     }).done(function () {
+    //         window.location.replace("cart.html");
+    //
+    //         Products.addProductToCart(productId);
+    //     })
+    // },
 
     getProductHtml: function (product) {
         return ` <tr class="cart_item">

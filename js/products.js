@@ -3,7 +3,8 @@ window.Products = {
 
     getProducts: function () {
         $.ajax({
-            url: Products.API_BASE_URL + "/products"
+            url: Products.API_BASE_URL + "/products",
+            method: 'GET'
         }).done(function (response) {
             console.log(response);
 
@@ -11,14 +12,15 @@ window.Products = {
         });
     },
 
-addProductToCart: function (productId) {
+    addProductToCart: function (productId) {
         var customerId = 70;
         var requestBody = {
             customerId: customerId,
             productId: productId
         };
 
-        $.ajax({
+
+        $.ajax( {
             url: Products.API_BASE_URL + "/carts",
             method: "PUT",
             contentType: "application/json",
@@ -55,11 +57,12 @@ addProductToCart: function (productId) {
 
         products.forEach(oneProduct => productsHtml += Products.getProductHtml(oneProduct));
 
-        $(".single-product-area .row:first-child").html(productsHtml);
+        $(".single-shop-products .row:first-child").html(productsHtml);
     },
 
     bindEvents: function () {
-        $(".single-product-area").delegate(".add_to_cart_button", "click", function (event) {
+        $(".single-product-area").delegate(".add_to_cart_button", "click",
+            function (event) {
             event.preventDefault();
 
             let productId = $(this).data("product_id");
